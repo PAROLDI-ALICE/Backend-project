@@ -25,10 +25,7 @@ return new class extends Migration {
             $table->text('experienceDetails');
             $table->text('description');
             $table->text('skills');
-
-
             $table->float('price');
-            $table->integer('experienceYears');
             $table->text('diplomas');
             $table->text('languages');
 
