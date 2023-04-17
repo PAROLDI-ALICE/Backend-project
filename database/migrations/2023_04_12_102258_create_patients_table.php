@@ -15,13 +15,13 @@ return new class extends Migration {
             $table->timestamps();
             $table->string('lastname');
             $table->string('firstname');
-            $table->integer('phoneNumber');
+            $table->string('phoneNumber');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('address');
             $table->integer('age');
             $table->text('needs');
-            $table->text('additional_information');
+            $table->text('additional_information')->nullable();
             $table->text('description')->nullable();
         });
     }

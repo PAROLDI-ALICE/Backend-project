@@ -16,14 +16,14 @@ return new class extends Migration {
             $table->string('lastname');
             $table->string('firstname');
             $table->string('email')->unique();
-            $table->integer('phoneNumber');
+            $table->string('phoneNumber');
             $table->string('password');
-            $table->binary('profilePicture');
+            $table->text('profilePicture')->nullable();
             $table->string('profession');
             $table->string('city');
             $table->integer('experienceYears');
             $table->text('experienceDetails');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('skills');
             $table->float('price');
             $table->text('diplomas');

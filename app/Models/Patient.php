@@ -18,10 +18,12 @@ class Patient extends Authenticatable
         'age',
         'needs',
         'additional_information',
-        'description'
-    ];
-    protected $hidden = [
+        'description',
         'password'
     ];
 
+// a tester via les inputs : 
+// protected $hidden = [
+//     'password'
+// ];
 }

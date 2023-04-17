@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
@@ -22,16 +23,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 //liste des routes pour le patient
 Route::resource(
-    '/patient',
+    '/patients',
     PatientController::class
 );
 //liste des routes pour le professionnel
 Route::resource(
-    '/professional',
+    '/professionals',
     ProfessionalController::class
 );
 //liste des routes pour les événemenents (rendez-vous)
 Route::resource(
-    '/event',
+    '/events',
     EventController::class
 );
+//route pour s'authentifier 
+Route::post('/login', [LoginController::class, 'login']);
+//route pour se déconnecter
+Route::post('/logout', [LoginController::class, 'logout']);

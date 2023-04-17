@@ -14,9 +14,11 @@ class Professional extends Authenticatable
         'lastname',
         'firstname',
         'email',
+        'password',
         'phoneNumber',
         'profession',
         'city',
+        'profession',
         'experienceYears',
         'experienceDetails',
         'description',
@@ -25,7 +27,7 @@ class Professional extends Authenticatable
         'diplomas',
         'languages'
     ];
-    protected $hidden = [
-        'password'
-    ];
+// protected $hidden = [
+//     'password'
+// ];
 }
