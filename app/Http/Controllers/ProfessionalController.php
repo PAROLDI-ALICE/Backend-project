@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Professional;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProfessionalController extends Controller
 {
@@ -51,28 +52,30 @@ class ProfessionalController extends Controller
             'diplomas' => 'required|string|max:255',
             'languages' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'skills' => 'required|in: 
-            "mobilité", 
-            "repas", 
-            "entretien",
-            "change",
-            "rééducation",
-            "toilette"
-            "soin",
-            "traitement",
-            "compagnie",
-            "transport"
-            '
-
+            'skills' => [
+                'required',
+                Rule::in([
+                    "mobility",
+                    "cooking",
+                    "houseCleaning",
+                    "dressing",
+                    "reeducation",
+                    "hygiene",
+                    "nursing",
+                    "treatment",
+                    "entertainment",
+                    "driving"
+                ])
+            ]
         ]);
-        //si la validation échoue, on envoie un code d'erreu 422 et les erreurs associées
+        //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()
             ], 422);
         }
-        //sinon création du compte en base de données via la recupération des inputs
+        //sinon création du compte en base de données via la récupération des inputs
         else {
             $professional = [
                 'lastname' => $request->input('lastname'),
@@ -100,7 +103,6 @@ class ProfessionalController extends Controller
             ]);
         }
     }
-
     /**
      * Display the specified resource.
      */
@@ -110,7 +112,6 @@ class ProfessionalController extends Controller
         $professionalID = Professional::findOrFail($id);
         return response()->json(["professionalID" => $professionalID]);
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -118,7 +119,6 @@ class ProfessionalController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -134,4 +134,22 @@ class ProfessionalController extends Controller
     {
         //
     }
+
+    //fonction pour filtrer en fonction de l'id
+    public function filterSkills(string $keyword)
+    {
+        // Commencez à construire la requête de recherche
+        $professionals = Professional::query();
+        // Ajouter une clause WHERE personnalisée pour rechercher le mot-clé dans le champ "skills"
+        $professionals->whereRaw("FIND_IN_SET('$keyword', skills) > 0");
+        // Récupérer les résultats de la requête
+        $results = $professionals->get();
+        // Retourner les résultats sous forme de réponse JSON
+        return response()->json(['professionals' => $results]);
+    }
+
+
+
+
+
 }

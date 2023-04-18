@@ -31,6 +31,9 @@ Route::resource(
     '/professionals',
     ProfessionalController::class
 );
+//Filtre pour afficher selon les besoins
+Route::get("/filter/skills/{skill}", [ProfessionalController::class, 'filterSkills']);
+
 //liste des routes pour les événemenents (rendez-vous)
 Route::resource(
     '/events',
