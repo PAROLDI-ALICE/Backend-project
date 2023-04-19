@@ -27,7 +27,4 @@ class Professional extends Authenticatable
         'diplomas',
         'languages'
     ];
-// protected $hidden = [
-//     'password'
-// ];
 }

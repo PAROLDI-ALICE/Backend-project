@@ -18,37 +18,34 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         //on vérifie que l'authentification respecte les conditions de validation
-        if (Auth::guard('users')->attempt($credentials)) {
+        if (Auth::guard('patient')->attempt($credentials)) {
             $patient = Patient::where('email', $credentials['email'])->first();
             if ($patient) {
-                Auth::guard('users')->login($patient);
-                var_dump($patient);
+                Auth::guard('patient')->login($patient);
+                dd($patient);
             }
-        }
-        if (Auth::guard('professionals')->attempt($credentials)) {
+        } else if (Auth::guard('professional')->attempt($credentials)) {
             $professional = Professional::where('email', $credentials['email'])->first();
             if ($professional) {
-                Auth::guard('professionals')->login($professional);
-                var_dump($professional);
+                Auth::guard('professional')->login($professional);
+                dd($professional);
             }
-        }
-        if (Auth::guard('admins')->attempt($credentials)) {
+        } else if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Admin::where('email', $credentials['email'])->first();
             if ($admin) {
-                Auth::guard('admins')->login($patient);
-                var_dump($admin);
+                Auth::guard('admin')->login($admin);
+                dd($admin);
             }
         }
-
         // Afficher les informations de session
-        // else {
-        //     // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
-        //     return redirect()->back()->withErrors(
-        //         [
-        //             'message' => 'Adresse email ou mot de passe incorrect.'
-        //         ]
-        //     );
-        // }
+        else {
+            // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
+            return redirect()->back()->withErrors(
+                [
+                    'message' => 'Adresse email ou mot de passe incorrect.'
+                ]
+            );
+        }
     }
     //méthode pour se déconnecter
     public function logout(Request $request)
