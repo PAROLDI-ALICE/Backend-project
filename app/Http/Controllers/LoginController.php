@@ -44,28 +44,46 @@ class LoginController extends Controller
             );
         }
     }
+
     //méthode pour se déconnecter
     public function logout(Request $request)
     {
         //Déconnection pour toutes les sessions
         Auth::logout();
 
-        //on vérifie quel type d'utilisateur est connecté
-        // if (Auth::guard('patient')->check()) {
-        //     //on appelle la méthode logout, pour déconnecter l'utilisateur
-        //     Auth::guard('patient')->logout();
-        // } else if (Auth::guard('professional')->check()) {
-        //     Auth::guard('professional')->logout();
-        // } else if (Auth::guard('admin')->check()) {
-        //     Auth::guard('admin')->logout();
-        // }
-        //on clôture la session
-        // $request->session()->invalidate();
-        // //on régénère le token csrf
-        // $request->session()->regenerateToken();
-        //et on envoie un message de confirmation en json
         return response()->json([
             'message' => "Vous êtes déconnecté."
+        ]);
+    }
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = null;
+
+        // Chercher l'utilisateur dans toutes les tables de votre application
+        if ($user = Patient::where('email', $request->email)->first()) {
+            $userType = 'patient';
+        } elseif ($user = Professional::where('email', $request->email)->first()) {
+            $userType = 'professional';
+        } elseif ($user = Admin::where('email', $request->email)->first()) {
+            $userType = 'admin';
+        };
+
+        if (!$user) {
+            return redirect()->back()->withErrors([
+                'email' => 'Aucun utilisateur n\'a été trouvé avec cette adresse email'
+            ]);
+        }
+
+        // $token = app('auth.password.broker')->createToken($user);
+
+        $user->sendPasswordResetNotification($userType);
+
+        return response()->json([
+            'message' => "demande de reinitialisation envoyée."
         ]);
     }
 }
