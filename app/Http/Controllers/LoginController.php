@@ -39,6 +39,9 @@ class LoginController extends Controller
                 var_dump($admin);
             }
         }
+        return response()->json([
+            'message' => "Vous êtes connecté."
+        ]);
 
         // Afficher les informations de session
         // else {
