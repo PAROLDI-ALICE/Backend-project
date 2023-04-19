@@ -34,22 +34,12 @@ class LoginController extends Controller
                 Auth::guard('admin')->login($admin);
             }
         }
-<<<<<<< HEAD
         return response()->json([
             'message' => "Vous êtes connecté."
         ]);
 
-=======
->>>>>>> b16ee5fba3bf536ad4bca144f541bf9d62552864
         // Afficher les informations de session
-        else {
-            // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
-            return redirect()->back()->withErrors(
-                [
-                    'message' => 'Adresse email ou mot de passe incorrect.'
-                ]
-            );
-        }
+       
     }
 
     //méthode pour se déconnecter
