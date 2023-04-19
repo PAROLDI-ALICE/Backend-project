@@ -21,9 +21,4 @@ class Patient extends Authenticatable
         'description',
         'password'
     ];
-
-// a tester via les inputs : 
-// protected $hidden = [
-//     'password'
-// ];
 }

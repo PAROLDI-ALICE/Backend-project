@@ -18,53 +18,79 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         //on vérifie que l'authentification respecte les conditions de validation
-        if (Auth::guard('users')->attempt($credentials)) {
+        if (Auth::guard('patient')->attempt($credentials)) {
             $patient = Patient::where('email', $credentials['email'])->first();
             if ($patient) {
-                Auth::guard('users')->login($patient);
-                var_dump($patient);
+                Auth::guard('patient')->login($patient);
             }
-        }
-        if (Auth::guard('professionals')->attempt($credentials)) {
+        } else if (Auth::guard('professional')->attempt($credentials)) {
             $professional = Professional::where('email', $credentials['email'])->first();
             if ($professional) {
-                Auth::guard('professionals')->login($professional);
-                var_dump($professional);
+                Auth::guard('professional')->login($professional);
             }
-        }
-        if (Auth::guard('admins')->attempt($credentials)) {
+        } else if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Admin::where('email', $credentials['email'])->first();
             if ($admin) {
-                Auth::guard('admins')->login($patient);
-                var_dump($admin);
+                Auth::guard('admin')->login($admin);
             }
         }
+<<<<<<< HEAD
         return response()->json([
             'message' => "Vous êtes connecté."
         ]);
 
+=======
+>>>>>>> b16ee5fba3bf536ad4bca144f541bf9d62552864
         // Afficher les informations de session
-        // else {
-        //     // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
-        //     return redirect()->back()->withErrors(
-        //         [
-        //             'message' => 'Adresse email ou mot de passe incorrect.'
-        //         ]
-        //     );
-        // }
+        else {
+            // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
+            return redirect()->back()->withErrors(
+                [
+                    'message' => 'Adresse email ou mot de passe incorrect.'
+                ]
+            );
+        }
     }
+
     //méthode pour se déconnecter
     public function logout(Request $request)
     {
-        //on appelle la méthode logout, pour déconnecter l'utilisateur
+        //Déconnection pour toutes les sessions
         Auth::logout();
-        //on clôture la session
-        $request->session()->invalidate();
-        //on régénère le token csrf
-        $request->session()->regenerateToken();
-        //et on envoie un message de confirmation en json
+
         return response()->json([
             'message' => "Vous êtes déconnecté."
+        ]);
+    }
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = null;
+
+        // Chercher l'utilisateur dans toutes les tables de votre application
+        if ($user = Patient::where('email', $request->email)->first()) {
+            $userType = 'patient';
+        } elseif ($user = Professional::where('email', $request->email)->first()) {
+            $userType = 'professional';
+        } elseif ($user = Admin::where('email', $request->email)->first()) {
+            $userType = 'admin';
+        };
+
+        if (!$user) {
+            return redirect()->back()->withErrors([
+                'email' => 'Aucun utilisateur n\'a été trouvé avec cette adresse email'
+            ]);
+        }
+
+        // $token = app('auth.password.broker')->createToken($user);
+
+        $user->sendPasswordResetNotification($userType);
+
+        return response()->json([
+            'message' => "demande de reinitialisation envoyée."
         ]);
     }
 }
