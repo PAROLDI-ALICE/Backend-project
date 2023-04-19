@@ -43,3 +43,5 @@ Route::resource(
 Route::post('/login', [LoginController::class, 'login']);
 //route pour se déconnecter
 Route::post('/logout', [LoginController::class, 'logout']);
+//route pour réinitialisation de password
+Route::post('/reset', [LoginController::class, 'forgotPassword'])->name('password.reset');

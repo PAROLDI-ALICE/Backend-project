@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'patient',
-        'passwords' => 'users',
+        'passwords' => 'patients',
     ],
 
     /*
@@ -102,8 +102,20 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'patients' => [
+            'provider' => 'patients',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'professionals' => [
+            'provider' => 'professionals',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

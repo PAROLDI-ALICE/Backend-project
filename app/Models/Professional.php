@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 class Professional extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable, CanResetPassword;
     protected $guarded = ['id'];
     protected $fillable = [
         'lastname',
