@@ -22,19 +22,17 @@ class LoginController extends Controller
             $patient = Patient::where('email', $credentials['email'])->first();
             if ($patient) {
                 Auth::guard('patient')->login($patient);
-                dd($patient);
             }
         } else if (Auth::guard('professional')->attempt($credentials)) {
             $professional = Professional::where('email', $credentials['email'])->first();
             if ($professional) {
                 Auth::guard('professional')->login($professional);
-                dd($professional);
             }
         } else if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Admin::where('email', $credentials['email'])->first();
             if ($admin) {
                 Auth::guard('admin')->login($admin);
-                dd($admin);
+
             }
         }
         // Afficher les informations de session
@@ -50,8 +48,15 @@ class LoginController extends Controller
     //méthode pour se déconnecter
     public function logout(Request $request)
     {
-        //on appelle la méthode logout, pour déconnecter l'utilisateur
-        Auth::logout();
+        //on vérifie quel type d'utilisateur est connecté
+        if (Auth::guard('patient')->check()) {
+            //on appelle la méthode logout, pour déconnecter l'utilisateur
+            Auth::guard('patient')->logout();
+        } else if (Auth::guard('professional')->check()) {
+            Auth::guard('professional')->logout();
+        } else if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+        }
         //on clôture la session
         $request->session()->invalidate();
         //on régénère le token csrf
