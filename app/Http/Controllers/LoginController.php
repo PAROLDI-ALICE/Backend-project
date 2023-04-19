@@ -52,6 +52,7 @@ class LoginController extends Controller
             );
         }
     }
+
     //méthode pour se déconnecter
     public function logout(Request $request)
     {
@@ -85,10 +86,6 @@ class LoginController extends Controller
             ? back()->with(['status' => __($status)])
             : back()->withInput($request->only('email'))
                 ->withErrors(['email' => __($status)]);
-
-
-
-
 
     }
 }

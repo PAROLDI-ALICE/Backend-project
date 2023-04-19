@@ -28,4 +28,8 @@ class Professional extends Authenticatable
         'diplomas',
         'languages'
     ];
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
 }
