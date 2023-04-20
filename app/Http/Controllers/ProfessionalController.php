@@ -137,7 +137,21 @@ class ProfessionalController extends Controller
             'diplomas' => 'required|string',
             'languages' => 'required|string',
             'description' => 'required|string',
-            'skills' => 'required|string'
+            'skills' => [
+                'required',
+                Rule::in([
+                    "mobility",
+                    "cooking",
+                    "houseCleaning",
+                    "dressing",
+                    "reeducation",
+                    "hygiene",
+                    "nursing",
+                    "treatment",
+                    "entertainment",
+                    "driving"
+                ])
+            ]
         ]);
         //on fait correspondre la valeur de chaque table à celle de l'input de modification
         $modifProfessional = Professional::findOrFail($id);

@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('city');
             $table->integer('experienceYears');
             $table->text('experienceDetails');
+            $table->rememberToken();
             $table->text('description')->nullable();
             $table->text('skills');
             $table->float('price');
