@@ -79,7 +79,6 @@ class PatientController extends Controller
             ]);
         }
     }
-
     /**
      * Display the specified resource.
      */
@@ -98,12 +97,39 @@ class PatientController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * PUT/PATCH
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $request->validate([
+            'lastname' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'phoneNumber' => 'required|string',
+            'address' => 'required|string|max:255',
+            'age' => 'required|integer|min:1|max:150',
+            'needs' => 'required|string|max:1000',
+            'additional_information' => 'nullable|string|max:1000',
+            'description' => 'nullable|string|max:1000'
+        ]);
 
+        //on fait correspondre la valeur de chaque table à celle de l'input de modification
+        $modifPatient = Patient::findOrFail($id);
+        $modifPatient->lastname = $request->input('lastname');
+        $modifPatient->firstname = $request->input('firstname');
+        $modifPatient->phoneNumber = $request->input('phoneNumber');
+        $modifPatient->address = $request->input('address');
+        $modifPatient->age = $request->input('age');
+        $modifPatient->needs = $request->input('needs');
+        $modifPatient->additional_information = $request->input('additional_information');
+        $modifPatient->description = $request->input('description');
+        //puis on sauvegarde en BDD
+        $modifPatient->save();
+        //on redirige vers la page précédente, avec un message de succès
+        return response()->json([
+            "message" => "Votre modification a été prise en compte.",
+            "modifPatient" => $modifPatient
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      */

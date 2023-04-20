@@ -124,7 +124,44 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //on valide le format de la modification
+        $request->validate([
+            'lastname' => 'required|string',
+            'firstname' => 'required|string',
+            'phoneNumber' => 'required|string',
+            'profession' => 'required|string',
+            'price' => 'required|string',
+            'experienceYears' => 'required|string',
+            'experienceDetails' => 'required|string',
+            'city' => 'required|in: "Nice", "Cagnes-sur-mer", "St-Laurent-du-Var"',
+            'diplomas' => 'required|string',
+            'languages' => 'required|string',
+            'description' => 'required|string',
+            'skills' => 'required|string'
+        ]);
+        //on fait correspondre la valeur de chaque table à celle de l'input de modification
+        $modifProfessional = Professional::findOrFail($id);
+        $modifProfessional->lastname = $request->input('lastname');
+        $modifProfessional->firstname = $request->input('firstname');
+        $modifProfessional->phoneNumber = $request->input('phoneNumber');
+        $modifProfessional->profession = $request->input('profession');
+        $modifProfessional->price = $request->input('price');
+        $modifProfessional->experienceYears = $request->input('experienceYears');
+        $modifProfessional->experienceDetails = $request->input('experienceDetails');
+        $modifProfessional->city = $request->input('city');
+        $modifProfessional->diplomas = $request->input('diplomas');
+        $modifProfessional->languages = $request->input('languages');
+        $modifProfessional->description = $request->input('description');
+        $modifProfessional->skills = $request->input('skills');
+        //puis on sauvegarde en BDD
+        $modifProfessional->save();
+        //redirection page precedente et message : success =)
+        return response()->json([
+            'message' => 'Votre modification a été prise en compte',
+            'modifProfessional' => $modifProfessional
+        ]);
+
+
     }
 
     /**
@@ -134,7 +171,6 @@ class ProfessionalController extends Controller
     {
         //
     }
-
     //fonction pour filtrer en fonction de l'id
     public function filterSkills(string $keyword)
     {
@@ -147,9 +183,4 @@ class ProfessionalController extends Controller
         // Retourner les résultats sous forme de réponse JSON
         return response()->json(['professionals' => $results]);
     }
-
-
-
-
-
 }
