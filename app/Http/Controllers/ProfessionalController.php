@@ -175,17 +175,21 @@ class ProfessionalController extends Controller
             'modifProfessional' => $modifProfessional
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $professional = Professional::findOrFail($id);
+        $professional->delete();
     }
+
+
+    /**
+     * Filter the ressource via $keyword 'skills'
+     */
     //fonction pour filtrer en fonction de l'id
-    public function
-    filterSkills(string $keyword)
+    public function filterSkills(string $keyword)
     {
         // Commencez à construire la requête de recherche
         $professionals = Professional::query();

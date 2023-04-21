@@ -67,10 +67,13 @@ class PasswordController extends Controller
 
                     //PATIENT
                 } elseif ($user instanceof Patient) {
+                    //on écrase la valeur précédente
                     $user->forceFill([
+                        //on crypte à nouveau le mot de passe
                         'password' => Hash::make($password)
+                        //on attribue un token temporaire à l'utilisateur
                     ])->setRememberToken(Str::random(60));
-
+                    //puis on sauvegarde les nouvelles données dans la BDD
                     $user->save();
                     event(new PasswordReset($user));
                     //ADMIN
@@ -85,7 +88,10 @@ class PasswordController extends Controller
             }
         );
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? view('password.resetSuccess')
+                ->with('status', __($status))
+                ->with('redirectTo', 'http://localhost:3000/login')
             : back()->withErrors(['email' => [__($status)]]);
+
     }
 }

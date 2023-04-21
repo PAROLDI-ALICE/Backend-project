@@ -1,0 +1,42 @@
+/* Définir les styles de base de la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Centrer le contenu de la page */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Ajouter un peu d'espace entre le texte et le bord de la page */
+.container h1 {
+    padding: 20px;
+}
+
+/* Styliser le bouton de redirection */
+.btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 30px;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* Centrer le bouton de redirection */
+.btn-container {
+    text-align: center;
+}

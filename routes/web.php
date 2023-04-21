@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("message", "MessageController@formMessageGoogle");
-Route::post("message", "MessageController@sendMessageGoogle")->name('send.message.google');
+Route::get("message", [MessageController::class, 'formMessageGoogle']);
+Route::post("message", [MessageController::class, 'sendMessageGoogle'])->name('send.message.google');
+
+//test message confirmation patient Axel
+Route::post('/send-message', [MessageController::class, 'sendMessagePatient'])->name('sendMessage');
+Route::get('send-mail', [MessageController::class, 'se']);

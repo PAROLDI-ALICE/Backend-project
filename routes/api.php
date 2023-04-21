@@ -29,9 +29,6 @@ Route::resource(
     PatientController::class
 );
 
-
-
-
 //liste des routes pour le professionnel
 Route::resource(
     '/professionals',
@@ -48,7 +45,7 @@ Route::resource(
 /*
 LOGIN/LOGOUT
 */
-//route pour s'authentifier 
+//routes pour s'authentifier 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 //route pour se déconnecter
 Route::post('/logout', [LoginController::class, 'logout']);
@@ -62,3 +59,4 @@ Route::post('/forgot', [PasswordController::class, 'forgotPassword'])->middlewar
 Route::get('/reset/{token}', [PasswordController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
 //mise à jour du mdp dans la BDD
 Route::post('/update', [PasswordController::class, 'updatePassword'])->middleware('guest')->name('password.update');
+//mise à jour mdp réussie => on renvoie une vue
