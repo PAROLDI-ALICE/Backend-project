@@ -160,8 +160,6 @@ class ProfessionalController extends Controller
             'message' => 'Votre modification a été prise en compte',
             'modifProfessional' => $modifProfessional
         ]);
-
-
     }
 
     /**
@@ -172,7 +170,8 @@ class ProfessionalController extends Controller
         //
     }
     //fonction pour filtrer en fonction de l'id
-    public function filterSkills(string $keyword)
+    public function
+    filterSkills(string $keyword)
     {
         // Commencez à construire la requête de recherche
         $professionals = Professional::query();
