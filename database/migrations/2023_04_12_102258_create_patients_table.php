@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->string('address');
+            $table->rememberToken();
             $table->integer('age');
             $table->text('needs');
             $table->text('additional_information')->nullable();

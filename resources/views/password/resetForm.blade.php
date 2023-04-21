@@ -11,7 +11,7 @@
     <div>
     <form action="{{ route('password.update') }}" method="POST">
     @csrf
-    <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <input type="hidden" name="token" value="{{$token}}">
     <h1>Réinitialisation du mot de passe</h1>
     <h3>Adresse email</h3>
     <input type="text" name="email" placeholder="Saisir votre adresse email">

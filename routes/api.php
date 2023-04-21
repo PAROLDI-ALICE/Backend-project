@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\EventController;
-//axel test
-use App\Http\Controllers\Api\NewPasswordController;
-use App\Http\Middleware\TrustHosts;
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +45,6 @@ Route::resource(
     '/events',
     EventController::class
 );
-
 /*
 LOGIN/LOGOUT
 */
@@ -60,8 +57,8 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Réinitialisation du mdp
 */
 //route POST pour demande de réinitialisation du password -> envoi de l'email
-Route::post('/forgot', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.forgot');
+Route::post('/forgot', [PasswordController::class, 'forgotPassword'])->middleware('guest')->name('password.forgot');
 //route GET pour le FORM de reset du password -> génération d'un nouveau mot de passe par le user 
-Route::get('/reset/{token}', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
+Route::get('/reset/{token}', [PasswordController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
 //mise à jour du mdp dans la BDD
-Route::post('/update', [LoginController::class, 'updatePassword'])->middleware('guest')->name('password.update');
+Route::post('/update', [PasswordController::class, 'updatePassword'])->middleware('guest')->name('password.update');
