@@ -36,15 +36,10 @@ class MessageController extends Controller
     //test Axel message de confirmation patient
     public function sendMessagePatient(Request $request)
     {
-
         $mailData = [
             'title' => 'Mail from ItSolutionStuff.com',
             'body' => 'This is for testing email using smtp.'
         ];
-
         Mail::to('v.gaudin06@yahoo.fr')->send(new TestMail($mailData));
-
-        dd("Email is sent successfully.");
-
     }
 }

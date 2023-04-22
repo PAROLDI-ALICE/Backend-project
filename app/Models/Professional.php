@@ -28,6 +28,14 @@ class Professional extends Authenticatable
         'diplomas',
         'languages'
     ];
+    public function setCategoryAttribute($value)
+    {
+        $this->attributes['skills'] = json_encode($value);
+    }
+    public function getCategoryAttribute($value)
+    {
+        return $this->attributes['category'] = json_decode($value);
+    }
     public function routeNotificationForMail()
     {
         return $this->email;

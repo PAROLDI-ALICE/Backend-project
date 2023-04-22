@@ -22,7 +22,7 @@ class ProfessionalController extends Controller
      */
     public function create()
     {
-        //
+        return view('filterTest.filterForm');
     }
 
     /**
@@ -52,21 +52,8 @@ class ProfessionalController extends Controller
             'diplomas' => 'required|string|max:255',
             'languages' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'skills' => [
-                'required',
-                Rule::in([
-                    "mobility",
-                    "cooking",
-                    "houseCleaning",
-                    "dressing",
-                    "reeducation",
-                    "hygiene",
-                    "nursing",
-                    "treatment",
-                    "entertainment",
-                    "driving"
-                ])
-            ]
+            'skills' => 'required|array',
+            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation'
         ]);
         //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
@@ -77,6 +64,10 @@ class ProfessionalController extends Controller
         }
         //sinon création du compte en base de données via la récupération des inputs
         else {
+            //on récupère les skills qui sont contenus dans un tableau
+            $skills = $request->input('skills');
+            //on "éclate" le tableau en string, chacune séparée par une virgule
+            $skills_str = implode(', ', $skills);
             $professional = [
                 'lastname' => $request->input('lastname'),
                 'firstname' => $request->input('firstname'),
@@ -92,7 +83,8 @@ class ProfessionalController extends Controller
                 'diplomas' => $request->input('diplomas'),
                 'languages' => $request->input('languages'),
                 'description' => $request->input('description'),
-                'skills' => $request->input('skills')
+                //on envoie la variable $skills_str qui a été traitée en amont
+                'skills' => $skills_str
             ];
             Professional::create($professional);
             //on renvoie un code 200 et un message de confirmation de création.
@@ -137,22 +129,13 @@ class ProfessionalController extends Controller
             'diplomas' => 'required|string',
             'languages' => 'required|string',
             'description' => 'required|string',
-            'skills' => [
-                'required',
-                Rule::in([
-                    "mobility",
-                    "cooking",
-                    "houseCleaning",
-                    "dressing",
-                    "reeducation",
-                    "hygiene",
-                    "nursing",
-                    "treatment",
-                    "entertainment",
-                    "driving"
-                ])
-            ]
+            'skills' => 'required|array',
+            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation'
         ]);
+        //on récupère les skills qui sont contenus dans un tableau
+        $skills = $request->input('skills');
+        //on "éclate" le tableau en string, chacune séparée par une virgule
+        $skills_str = implode(', ', $skills);
         //on fait correspondre la valeur de chaque table à celle de l'input de modification
         $modifProfessional = Professional::findOrFail($id);
         $modifProfessional->lastname = $request->input('lastname');
@@ -166,7 +149,7 @@ class ProfessionalController extends Controller
         $modifProfessional->diplomas = $request->input('diplomas');
         $modifProfessional->languages = $request->input('languages');
         $modifProfessional->description = $request->input('description');
-        $modifProfessional->skills = $request->input('skills');
+        $modifProfessional->skills = $skills_str;
         //puis on sauvegarde en BDD
         $modifProfessional->save();
         //redirection page precedente et message : success =)

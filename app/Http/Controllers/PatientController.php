@@ -45,7 +45,8 @@ class PatientController extends Controller
             ],
             'address' => 'required|string|max:255',
             'age' => 'required|integer|min:1|max:150',
-            'needs' => 'required|string|max:1000',
+            'needs' => 'required|array',
+            'needs.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation',
             'additional_information' => 'nullable|string|max:1000',
             'description' => 'nullable|string|max:1000'
         ]);
@@ -58,6 +59,10 @@ class PatientController extends Controller
         }
         //sinon création du compte en base de donnée via la recupération des inputs
         else {
+            //on récupère les besoins qui sont contenus dans un tableau
+            $needs = $request->input('skills');
+            //on "éclate" le tableau en string, chacune séparée par une virgule
+            $needs_str = implode(', ', $needs);
             $patient = [
                 'lastname' => $request->input('lastname'),
                 'firstname' => $request->input('firstname'),
@@ -66,8 +71,8 @@ class PatientController extends Controller
                 // Hashing the password
                 'password' => bcrypt($request->input('password')),
                 'address' => $request->input('address'),
+                'needs' => $needs_str,
                 'age' => $request->input('age'),
-                'needs' => $request->input('needs'),
                 'additional_information' => $request->input('additional_information'),
                 'description' => $request->input('description')
             ];
@@ -107,10 +112,15 @@ class PatientController extends Controller
             'phoneNumber' => 'required|string',
             'address' => 'required|string|max:255',
             'age' => 'required|integer|min:1|max:150',
-            'needs' => 'required|string|max:1000',
+            'needs' => 'required|array',
+            'needs.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation',
             'additional_information' => 'nullable|string|max:1000',
             'description' => 'nullable|string|max:1000'
         ]);
+        //on récupère les besoins qui sont contenus dans un tableau
+        $needs = $request->input('skills');
+        //on "éclate" le tableau en string, chacune séparée par une virgule
+        $needs_str = implode(', ', $needs);
 
         //on fait correspondre la valeur de chaque table à celle de l'input de modification
         $modifPatient = Patient::findOrFail($id);
@@ -119,7 +129,7 @@ class PatientController extends Controller
         $modifPatient->phoneNumber = $request->input('phoneNumber');
         $modifPatient->address = $request->input('address');
         $modifPatient->age = $request->input('age');
-        $modifPatient->needs = $request->input('needs');
+        $modifPatient->needs = $needs_str;
         $modifPatient->additional_information = $request->input('additional_information');
         $modifPatient->description = $request->input('description');
         //puis on sauvegarde en BDD

@@ -24,24 +24,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //liste des routes pour le patient
-Route::resource(
-    '/patients',
-    PatientController::class
-);
+Route::resource('/patients', PatientController::class);
 
 //liste des routes pour le professionnel
-Route::resource(
-    '/professionals',
-    ProfessionalController::class
-);
+Route::resource('/professionals', ProfessionalController::class);
 //Filtre pour afficher selon les besoins
 Route::get("/filter/skills/{skill}", [ProfessionalController::class, 'filterSkills']);
 
 //liste des routes pour les événemenents (rendez-vous)
-Route::resource(
-    '/events',
-    EventController::class
-);
+Route::resource('/events', EventController::class);
 /*
 LOGIN/LOGOUT
 */
