@@ -182,4 +182,16 @@ class ProfessionalController extends Controller
         // Retourner les résultats sous forme de réponse JSON
         return response()->json(['professionals' => $results]);
     }
+
+    public function filterCity(string $keyword)
+    {
+        // Commencez à construire la requête de recherche
+        $professionals = Professional::query();
+        // Ajouter une clause WHERE personnalisée pour rechercher le mot-clé dans le champ "city"
+        $professionals->whereRaw("FIND_IN_SET('$keyword', city) > 0");
+        // Récupérer les résultats de la requête
+        $results = $professionals->get();
+        // Retourner les résultats sous forme de réponse JSON
+        return response()->json(['professionals' => $results]);
+    }
 }

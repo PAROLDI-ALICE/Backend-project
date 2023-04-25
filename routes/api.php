@@ -30,7 +30,8 @@ Route::resource('/patients', PatientController::class);
 Route::resource('/professionals', ProfessionalController::class);
 //Filtre pour afficher selon les besoins
 Route::get("/filter/skills/{skill}", [ProfessionalController::class, 'filterSkills']);
-
+//filtre pour afficher selon la ville
+Route::get("/filter/city/{city}", [ProfessionalController::class, 'filterCity']);
 //liste des routes pour les événemenents (rendez-vous)
 Route::resource('/events', EventController::class);
 /*

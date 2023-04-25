@@ -31,7 +31,7 @@ class LoginController extends Controller
             if ($professional) {
                 Auth::guard('professional')->login($professional);
                 return response()->json([
-                    'message' => "Vous êtes connecté.",
+                    'message' => "Vous êtes connecté."
                 ]);
             }
         } else if (Auth::guard('admin')->attempt($credentials)) {
@@ -39,7 +39,7 @@ class LoginController extends Controller
             if ($admin) {
                 Auth::guard('admin')->login($admin);
                 return response()->json([
-                    'message' => "Vous êtes connecté.",
+                    'message' => "Vous êtes connecté."
                 ]);
             }
         } else {
@@ -59,5 +59,4 @@ class LoginController extends Controller
             ['message' => 'Vous êtes déconnecté.']
         );
     }
-
 }
