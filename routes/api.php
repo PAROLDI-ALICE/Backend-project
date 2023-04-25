@@ -50,4 +50,4 @@ Route::post('/forgot', [PasswordController::class, 'forgotPassword'])->middlewar
 Route::get('/reset/{token}', [PasswordController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
 //mise à jour du mdp dans la BDD
 Route::post('/update', [PasswordController::class, 'updatePassword'])->middleware('guest')->name('password.update');
-//mise à jour mdp réussie => on renvoie une vue
+//mise à jour mdp réussie => on renvoie vers la vue login

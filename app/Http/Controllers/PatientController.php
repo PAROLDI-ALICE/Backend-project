@@ -50,7 +50,7 @@ class PatientController extends Controller
             'additional_information' => 'nullable|string|max:1000',
             'description' => 'nullable|string|max:1000'
         ]);
-        //si la validation échoue, on envoie un code d'erreu 422 et les erreurs associées
+        //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -60,7 +60,7 @@ class PatientController extends Controller
         //sinon création du compte en base de donnée via la recupération des inputs
         else {
             //on récupère les besoins qui sont contenus dans un tableau
-            $needs = $request->input('skills');
+            $needs = $request->input('needs');
             //on "éclate" le tableau en string, chacune séparée par une virgule
             $needs_str = implode(', ', $needs);
             $patient = [
@@ -79,8 +79,8 @@ class PatientController extends Controller
             Patient::create($patient);
             //on renvoie un code 200 et un message de confirmation de création.
             return response()->json([
+                'success' => true,
                 'message' => 'Votre profil a bien été créé',
-                'patient' => $patient
             ]);
         }
     }

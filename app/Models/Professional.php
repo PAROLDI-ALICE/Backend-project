@@ -34,7 +34,7 @@ class Professional extends Authenticatable
     }
     public function getCategoryAttribute($value)
     {
-        return $this->attributes['category'] = json_decode($value);
+        return $this->attributes['skills'] = json_decode($value);
     }
     public function routeNotificationForMail()
     {
