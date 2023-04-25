@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Laravel\Cashier\Billable;
+use Laravel\Cashier\Cashier;
+
 
 class Patient extends Authenticatable
 {

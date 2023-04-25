@@ -7,6 +7,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,8 @@ Route::get('/reset/{token}', [PasswordController::class, 'resetPassword'])->midd
 //mise à jour du mdp dans la BDD
 Route::post('/update', [PasswordController::class, 'updatePassword'])->middleware('guest')->name('password.update');
 //mise à jour mdp réussie => on renvoie une vue
+
+/*
+STRIPE
+*/
+Route::post('/stripe', [StripeController::class, 'handleStripe'])->name('paiement.stripe');
