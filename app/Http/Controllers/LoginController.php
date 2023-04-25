@@ -22,26 +22,47 @@ class LoginController extends Controller
             $patient = Patient::where('email', $credentials['email'])->first();
             if ($patient) {
                 Auth::guard('patient')->login($patient);
+                return response()->json([
+                    'success' => true
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Adresse email ou mot de passe incorrect.'
+                ]);
             }
         } else if (Auth::guard('professional')->attempt($credentials)) {
             $professional = Professional::where('email', $credentials['email'])->first();
             if ($professional) {
                 Auth::guard('professional')->login($professional);
+                return response()->json([
+                    'success' => true,
+                ]);
+                    
+                
+            } else {
+                return response()->json([
+                    'message' => 'Adresse email ou mot de passe incorrect.'
+                ]);
             }
         } else if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Admin::where('email', $credentials['email'])->first();
             if ($admin) {
                 Auth::guard('admin')->login($admin);
-            }
-        } else {
-            // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
-            return redirect()->back()->withErrors(
-                [
+                return response()->json([
+                    'success' =>  true
+                ]);
+            } else {
+                return response()->json([
                     'message' => 'Adresse email ou mot de passe incorrect.'
-                ]
-            );
+                ]);
+            }
         }
+            return response()->json([
+            'message' => 'Adresse email ou mot de passe incorrect.'
+        ]);
+        
     }
+    
     //méthode pour se déconnecter
     public function logout(Request $request)
     {
