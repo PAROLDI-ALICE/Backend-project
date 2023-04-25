@@ -22,16 +22,25 @@ class LoginController extends Controller
             $patient = Patient::where('email', $credentials['email'])->first();
             if ($patient) {
                 Auth::guard('patient')->login($patient);
+                return response()->json([
+                    'message' => "Vous êtes connecté.",
+                ]);
             }
         } else if (Auth::guard('professional')->attempt($credentials)) {
             $professional = Professional::where('email', $credentials['email'])->first();
             if ($professional) {
                 Auth::guard('professional')->login($professional);
+                return response()->json([
+                    'message' => "Vous êtes connecté."
+                ]);
             }
         } else if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Admin::where('email', $credentials['email'])->first();
             if ($admin) {
                 Auth::guard('admin')->login($admin);
+                return response()->json([
+                    'message' => "Vous êtes connecté."
+                ]);
             }
         } else {
             // Si les informations de connexion sont invalides, redirigez l'utilisateur vers la page de connexion avec un message d'erreur
@@ -50,5 +59,4 @@ class LoginController extends Controller
             ['message' => 'Vous êtes déconnecté.']
         );
     }
-
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Professional;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class ProfessionalController extends Controller
 {
@@ -22,7 +21,7 @@ class ProfessionalController extends Controller
      */
     public function create()
     {
-        return view('filterTest.filterForm');
+
     }
 
     /**
@@ -73,7 +72,7 @@ class ProfessionalController extends Controller
                 'firstname' => $request->input('firstname'),
                 'phoneNumber' => $request->input('phoneNumber'),
                 'email' => $request->input('email'),
-                // Hashing the password
+                //on "hash" le mdp
                 'password' => bcrypt($request->input('password')),
                 'profession' => $request->input('profession'),
                 'price' => $request->input('price'),
@@ -178,6 +177,18 @@ class ProfessionalController extends Controller
         $professionals = Professional::query();
         // Ajouter une clause WHERE personnalisée pour rechercher le mot-clé dans le champ "skills"
         $professionals->whereRaw("FIND_IN_SET('$keyword', skills) > 0");
+        // Récupérer les résultats de la requête
+        $results = $professionals->get();
+        // Retourner les résultats sous forme de réponse JSON
+        return response()->json(['professionals' => $results]);
+    }
+
+    public function filterCity(string $keyword)
+    {
+        // Commencez à construire la requête de recherche
+        $professionals = Professional::query();
+        // Ajouter une clause WHERE personnalisée pour rechercher le mot-clé dans le champ "city"
+        $professionals->whereRaw("FIND_IN_SET('$keyword', city) > 0");
         // Récupérer les résultats de la requête
         $results = $professionals->get();
         // Retourner les résultats sous forme de réponse JSON
