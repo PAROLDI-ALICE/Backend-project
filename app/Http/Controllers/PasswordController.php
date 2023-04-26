@@ -19,12 +19,17 @@ class PasswordController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
-        //Utilisation de la façade pour envoi email
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        //Chercher les emails autres que par défaut
+        if (Admin::where('email', $request->email)->exists()) {
+            $status = Password::broker('admins')->sendResetLink($request->only('email'));
+        } else if (Professional::where('email', $request->email)->exists()) {
+            $status = Password::broker('professionals')->sendResetLink($request->only('email'));
+            //sinon on utilise le "broker" par défaut (qui correspond aux patients)
+        } else {
+            $status = Password::broker()->sendResetLink($request->only('email'));
+        }
         //Confirmation ou retour erreur
-        return $status = Password::RESET_LINK_SENT
+        return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withInput($request->only('email'))
                 ->withErrors(['email' => __($status)]);

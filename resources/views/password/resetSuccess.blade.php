@@ -12,7 +12,7 @@
         <h1>{{$status}}</h1>
         @if(isset($redirectTo))
             <div class="btn-container">
-                <a href="{{ $redirectTo }}" class="btn">Aller à Google</a>
+                <a href="{{ $redirectTo }}" class="btn">Retourner à l'accueil</a>
             </div>
             <script>
                 setTimeout(function() {
