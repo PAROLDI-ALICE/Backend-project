@@ -31,7 +31,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
 </form>
 
 </div>
