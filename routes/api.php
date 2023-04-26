@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //liste des routes pour le patient
 Route::resource('/patients', PatientController::class);
+
+//routes pour l'admin
+Route::post('/admin', [AdminController::class, 'createAdmin']);
 
 //liste des routes pour le professionnel
 Route::resource('/professionals', ProfessionalController::class);

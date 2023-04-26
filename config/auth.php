@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => 'patient',
         'passwords' => 'patients',
+
     ],
 
     /*

@@ -44,15 +44,14 @@ class ProfessionalController extends Controller
                 'regex:^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$^'
             ],
             'experienceYears' => 'required|integer|min:0',
-            'city' => 'required|in: "Nice", "Cagnes-sur-mer", "St-Laurent-du-Var"',
+            'city' => 'required|in:"Nice","Cagnes-sur-mer","St-Laurent-du-Var"',
             'profession' => 'required|string|max:255',
             'price' => 'required|string',
             'diplomas' => 'required|string|max:255',
             'languages' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'skills' => 'required|array',
-            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation',
-
+            'skills.*' => 'in:"mobility","cooking","houseCleaning","clothesChange","reeducation","hygiene","nursing","medication","entertainment","transportation"'
         ]);
         //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
@@ -139,12 +138,12 @@ class ProfessionalController extends Controller
             'price' => 'required|string',
             'experienceYears' => 'required|string',
             'experienceDetails' => 'required|string',
-            'city' => 'required|in: "Nice", "Cagnes-sur-mer", "St-Laurent-du-Var"',
+            'city' => 'required|in:"Nice","Cagnes-sur-mer","St-Laurent-du-Var"',
             'diplomas' => 'required|string',
             'languages' => 'required|string',
             'description' => 'required|string',
             'skills' => 'required|array',
-            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation'
+            'skills.*' => 'in:"mobility","cooking","houseCleaning","clothesChange","reeducation","hygiene","nursing","medication","entertainment","transportation"'
         ]);
         //on récupère les skills qui sont contenus dans un tableau
         $skills = $request->input('skills');

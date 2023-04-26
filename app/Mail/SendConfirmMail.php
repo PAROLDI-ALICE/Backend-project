@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
-class MessageGoogle extends Mailable
+class SendConfirmMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,10 +24,9 @@ class MessageGoogle extends Mailable
     }
     public function build()
     {
-
         return $this->from("axelbqt.dev@gmail.com") // L'expéditeur/Admin
-            ->subject("Votre compte professionnel a bien été créé.") // Le sujet
-            ->view('emails.message-google'); // La vue
+            ->subject("Demande de création de compte professionnel") // Le sujet
+            ->view('emails.confirmPro'); // La vue
     }
     /**
      * Get the message envelope.
@@ -45,7 +44,7 @@ class MessageGoogle extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.message-google',
+            view: 'emails.confirmPro',
         );
     }
     /**
