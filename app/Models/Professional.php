@@ -17,6 +17,7 @@ class Professional extends Authenticatable
         'email',
         'password',
         'phoneNumber',
+        'profilePicture',
         'profession',
         'city',
         'profession',

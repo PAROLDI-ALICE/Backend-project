@@ -21,7 +21,6 @@ class ProfessionalController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -52,7 +51,8 @@ class ProfessionalController extends Controller
             'languages' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'skills' => 'required|array',
-            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation'
+            'skills.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation',
+
         ]);
         //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
@@ -67,6 +67,18 @@ class ProfessionalController extends Controller
             $skills = $request->input('skills');
             //on "éclate" le tableau en string, chacune séparée par une virgule
             $skills_str = implode(', ', $skills);
+
+            // Récupération du fichier image envoyé dans la requête
+            $image = $request->file('profilePicture');
+
+            // // Vérification que l'image a été envoyée
+            if ($image) {
+                // Génération d'un nom de fichier unique
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+                // Enregistrement de l'image dans le dossier images
+                $path = $image->storeAs('images', $filename);
+            }
             $professional = [
                 'lastname' => $request->input('lastname'),
                 'firstname' => $request->input('firstname'),
@@ -83,14 +95,17 @@ class ProfessionalController extends Controller
                 'languages' => $request->input('languages'),
                 'description' => $request->input('description'),
                 //on envoie la variable $skills_str qui a été traitée en amont
-                'skills' => $skills_str
+                'skills' => $skills_str,
+                // Enregistrement de l'URL de l'image dans la base de données
+                'profilePicture' => $filename
             ];
             Professional::create($professional);
             //on renvoie un code 200 et un message de confirmation de création.
             return response()->json([
                 'success' => true,
                 'message' => 'Le compte professionnel a bien été créé.',
-                'professional' => $professional
+                'professional' => $professional,
+                'image' => $image
             ]);
         }
     }
@@ -157,6 +172,7 @@ class ProfessionalController extends Controller
             'modifProfessional' => $modifProfessional
         ]);
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -189,6 +205,8 @@ class ProfessionalController extends Controller
         $professionals = Professional::query();
         // Ajouter une clause WHERE personnalisée pour rechercher le mot-clé dans le champ "city"
         $professionals->whereRaw("FIND_IN_SET('$keyword', city) > 0");
+        // Ajouter une clause WHERE personnalisée pour rechercher les compétences dans le champ "skills"
+
         // Récupérer les résultats de la requête
         $results = $professionals->get();
         // Retourner les résultats sous forme de réponse JSON
