@@ -32,7 +32,7 @@ class PasswordController extends Controller
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withInput($request->only('email'))
-                ->withErrors(['email' => __($status)]);
+            ->withErrors(['email' => __($status)]);
     }
     //on affiche le formulaire de réinitialisation du mdp
     public function resetPassword(string $token)
@@ -89,14 +89,14 @@ class PasswordController extends Controller
 
                     $user->save();
                     event(new PasswordReset($user));
+                    dd($user);
                 }
             }
         );
         return $status === Password::PASSWORD_RESET
             ? view('password.resetSuccess')
-                ->with('status', __($status))
-                ->with('redirectTo', 'http://localhost:3000/login')
+            ->with('status', __($status))
+            ->with('redirectTo', 'http://localhost:3000/login')
             : back()->withErrors(['email' => [__($status)]]);
-
     }
 }
