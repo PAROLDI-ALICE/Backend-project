@@ -23,7 +23,15 @@
     <input type="password" name="password_confirmation" placeholder="Confirmer le nouveau mot de passe">
     <br>
     <button type="submit">Modifier le mot de passe</button>
-
+    @if(isset($errors) && count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 </form>
 
 </div>
