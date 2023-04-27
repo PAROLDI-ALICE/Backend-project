@@ -51,7 +51,8 @@ class ProfessionalController extends Controller
             'languages' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'skills' => 'required|array',
-            'skills.*' => 'in:"mobility","cooking","houseCleaning","clothesChange","reeducation","hygiene","nursing","medication","entertainment","transportation"'
+            'skills.*' => 'in:"mobility","cooking","houseCleaning","clothesChange","reeducation","hygiene","nursing","medication","entertainment","transportation"',
+            'profilePicture' => 'required'
         ]);
         //si la validation échoue, on envoie un code d'erreur 422 et les erreurs associées
         if ($validator->fails()) {
@@ -73,7 +74,9 @@ class ProfessionalController extends Controller
                 // Génération d'un nom de fichier unique
                 $filename = uniqid() . '.' . $image->getClientOriginalExtension();
                 // Enregistrement de l'image dans le dossier images
-                $path = $image->storeAs('images', $filename);
+                // $path = $image->storeAs('images', $filename);
+                // on va retenir cette methode pour l'instant qui deplace l'image dans le dossier public de react
+                $path2 = $image->move('/Users/axelbacquet/Desktop/Matchycare/react/matchy_care_front/public/images', $filename);
             }
             $professional = [
                 'lastname' => $request->input('lastname'),
