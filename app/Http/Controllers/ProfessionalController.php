@@ -66,15 +66,12 @@ class ProfessionalController extends Controller
             $skills = $request->input('skills');
             //on "éclate" le tableau en string, chacune séparée par une virgule
             $skills_str = implode(', ', $skills);
-
             // Récupération du fichier image envoyé dans la requête
             $image = $request->file('profilePicture');
-
             // // Vérification que l'image a été envoyée
             if ($image) {
                 // Génération d'un nom de fichier unique
                 $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-
                 // Enregistrement de l'image dans le dossier images
                 $path = $image->storeAs('images', $filename);
             }

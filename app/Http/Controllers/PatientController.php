@@ -46,7 +46,7 @@ class PatientController extends Controller
             'address' => 'required|string|max:255',
             'age' => 'required|integer|min:1|max:150',
             'needs' => 'required|array',
-            'needs.*' => 'in:mobility,cooking,houseCleaning,clothesChange,reeducation,hygiene,nursing,medication,entertainment,transportation',
+            'needs.*' => 'in:"mobility","cooking","houseCleaning","clothesChange","reeducation","hygiene","nursing","medication","entertainment","transportation"',
             'additional_information' => 'nullable|string|max:1000',
             'description' => 'nullable|string|max:1000'
         ]);
