@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::table('patients', function (Blueprint $table) {
             $table->string('guard_name')->default('patient');
         });
-    
+
         Schema::table('admins', function (Blueprint $table) {
             $table->string('guard_name')->default('admin');
         });
-
-       
     }
 
     /**
@@ -30,7 +28,7 @@ return new class extends Migration
         Schema::table('patients', function (Blueprint $table) {
             $table->dropColumn('guard_name')->default('patient');
         });
-    
+
         Schema::table('admins', function (Blueprint $table) {
             $table->dropcolumn('guard_name')->default('admin');
         });

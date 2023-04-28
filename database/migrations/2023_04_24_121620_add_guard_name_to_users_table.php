@@ -10,19 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::table('professionals', function (Blueprint $table) {
-        $table->string('guard_name')->default('professional');
-    });
-}
+    {
+        Schema::table('professionals', function (Blueprint $table) {
+            $table->string('guard_name')->default('professional');
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down()
-{
-    Schema::table('professionals', function (Blueprint $table) {
-        $table->dropColumn('guard_name');
-    });
-}
+    {
+        Schema::table('professionals', function (Blueprint $table) {
+            $table->dropColumn('guard_name');
+        });
+    }
 };

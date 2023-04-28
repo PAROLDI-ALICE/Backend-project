@@ -79,7 +79,7 @@ class ProfessionalController extends Controller
                 // Enregistrement de l'image dans le dossier images
                 // $path = $image->storeAs('images', $filename);
                 // on va retenir cette methode pour l'instant qui deplace l'image dans le dossier public de react
-                $path2 = $image->move('/Users/axelbacquet/Desktop/Matchycare/react/matchy_care_front/public/images', $filename);
+                $image->move('/Users/axelbacquet/Desktop/Matchycare/react/matchy_care_front/public/images', $filename);
             }
             $professional = [
                 'lastname' => $request->input('lastname'),

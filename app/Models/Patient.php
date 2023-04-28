@@ -9,7 +9,6 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Laravel\Cashier\Billable;
 use Laravel\Cashier\Cashier;
 
-
 class Patient extends Authenticatable
 {
     use HasFactory, Notifiable, CanResetPassword;

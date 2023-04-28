@@ -8,6 +8,7 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class LoginController extends Controller
 {
     //méthode pour se connecter 
@@ -17,6 +18,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
         //on vérifie que l'authentification respecte les conditions de validation
         if (Auth::guard('patient')->attempt($credentials)) {
             $patient = Patient::where('email', $credentials['email'])->first();
@@ -24,6 +26,8 @@ class LoginController extends Controller
                 Auth::guard('patient')->login($patient);
                 return response()->json([
                     'message' => "Vous êtes connecté.",
+                    'email' => $patient->email,
+                    'account' => $patient->guard_name
                 ]);
             }
         } else if (Auth::guard('professional')->attempt($credentials)) {
@@ -31,7 +35,11 @@ class LoginController extends Controller
             if ($professional) {
                 Auth::guard('professional')->login($professional);
                 return response()->json([
-                    'message' => "Vous êtes connecté."
+                    'message' => "Vous êtes connecté.",
+                    'professional' => Auth::guard('professional'),
+                    'email' => $professional->email,
+                    'account' => $professional->guard_name,
+
                 ]);
             }
         } else if (Auth::guard('admin')->attempt($credentials)) {
@@ -39,7 +47,10 @@ class LoginController extends Controller
             if ($admin) {
                 Auth::guard('admin')->login($admin);
                 return response()->json([
-                    'message' => "Vous êtes connecté."
+                    'message' => "Vous êtes connecté.",
+                    'account' => $admin->guard_name,
+
+
                 ]);
             }
         } else {

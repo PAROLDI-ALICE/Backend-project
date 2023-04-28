@@ -76,11 +76,13 @@ class PatientController extends Controller
                 'additional_information' => $request->input('additional_information'),
                 'description' => $request->input('description')
             ];
+
             Patient::create($patient);
             //on renvoie un code 200 et un message de confirmation de création.
             return response()->json([
                 'success' => true,
                 'message' => 'Votre profil a bien été créé',
+
             ]);
         }
     }
