@@ -12,7 +12,7 @@ use App\Mail\TestMail;
 
 class MessageController extends Controller
 {
-    // Envoi du mail aux utilisateurs
+    // Envoi du mail au professionnel quand son compte est créé
     public function sendConfirmPro(Request $request)
     {
         //On valide la requête
