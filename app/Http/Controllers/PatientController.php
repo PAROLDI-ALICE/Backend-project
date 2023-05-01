@@ -91,7 +91,9 @@ class PatientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //Récupérer l'ID d'un patient via le modèle
+        $patientID = Patient::findOrFail($id);
+        return response()->json(["patientID" => $patientID]);
     }
 
     /**
