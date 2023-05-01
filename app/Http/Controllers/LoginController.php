@@ -27,7 +27,8 @@ class LoginController extends Controller
                 return response()->json([
                     'message' => "Vous êtes connecté.",
                     'email' => $patient->email,
-                    'account' => $patient->guard_name
+                    'account' => $patient->guard_name,
+                    'id' => $patient->id
                 ]);
             }
         } else if (Auth::guard('professional')->attempt($credentials)) {
